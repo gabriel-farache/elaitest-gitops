@@ -1,0 +1,63 @@
+apiVersion: v1
+data:
+  elaitest-input-schema.json: |
+    {
+      "$id": "classpath:/schemas/elaitest-schema.json",
+      "title": "Data Input Schema",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "sampleText": {
+          "title": "A sample text",
+          "type": "string",
+          "description": "Sample text data"
+        }
+      }
+    }
+  elaitest-workflow-option-output-schema.json: |-
+    {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "WorkflowOption",
+        "description": "Workflow option",
+        "type": "object",
+        "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" }
+        },
+        "required": ["id", "name"]
+    }
+  elaitest-workflow-options-output-schema.json: |-
+    {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "Workflow Options",
+        "description": "Workflow options",
+        "type": "object",
+        "properties": {
+            "currentVersion": { "$ref": "elaitest-workflow-option-output-schema.json"},
+            "upgradeOptions": {
+                "type" : "array",
+                "items": {"$ref" : "elaitest-workflow-option-output-schema.json"}
+            },
+            "migrationOptions": {
+                "type" : "array",
+                "items": {"$ref" : "elaitest-workflow-option-output-schema.json"}
+            },
+            "newOptions": {
+                "type" : "array",
+                "items": {"$ref" : "elaitest-workflow-option-output-schema.json"}
+            },
+            "continuationOptions": {
+                "type" : "array",
+                "items": {"$ref" : "elaitest-workflow-option-output-schema.json"}
+            },
+            "otherOptions": {
+                "type" : "array",
+                "items": {"$ref" : "elaitest-workflow-option-output-schema.json"}
+            }
+        },
+        "required": ["workflowOptions"]
+    }
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: 01-elaitest-resources
