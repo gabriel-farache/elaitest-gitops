@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: elaitest
+  namespace: orchestrator-gitops
+  labels:
+    app-type: bootstrap
+    app: elaitest
+    rht-gitops.com/janus-argocd: elaitest
+spec:
+  destination:
+    namespace: sonataflow-infra
+    server: https://kubernetes.default.svc
+  project: orchestrator-gitops
+  source:
+    path: argocd
+    repoURL: git@github.com:gabriel-farache/elaitest.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      # Keep history of pipeline runs
+      prune: false
+      selfHeal: true

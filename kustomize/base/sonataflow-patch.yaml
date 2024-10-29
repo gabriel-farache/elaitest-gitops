@@ -1,0 +1,30 @@
+apiVersion: sonataflow.org/v1alpha08
+kind: SonataFlow
+metadata:
+  name: elaitest
+  annotations:
+    sonataflow.org/profile: prod
+  labels:
+    backstage.io/kubernetes-id: elaitest
+spec:
+  persistence:
+    postgresql:
+      secretRef:
+        name: sonataflow-psql-postgresql
+        userKey: postgres-username
+        passwordKey: postgres-password
+      serviceRef:
+        name: sonataflow-psql-postgresql
+        namespace: sonataflow-infra
+        port: 5432
+        databaseName: sonataflow
+        databaseSchema: elaitest
+  podTemplate:
+    container:
+      image: serverless-workflow-elaitest
+      envFrom:
+        - configMapRef:
+            name: elaitest-gitops
+        - secretRef:
+            name: elaitest-secret
+      resources: {}
